@@ -16,6 +16,10 @@ import { Ionicons } from '@expo/vector-icons';
 export default function MainScreen() {
   const size: number = 30; // This `size` variable is not used in the provided code.
   const [showExpandedArea, setShowExpandedArea] = useState(false);
+  // New state for the event details area
+  const [showEventDetails, setShowEventDetails] = useState(false);
+
+  const toggleEventDetails = () => setShowEventDetails(!showEventDetails);
 
   const toggleExpandedArea = () => {
     setShowExpandedArea(!showExpandedArea);
@@ -66,8 +70,16 @@ export default function MainScreen() {
 
       {/* 2. Event Info Header */}
       <View style={styles.eventContainer}>
-        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
-          <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+        <TouchableOpacity
+          style={styles.controlButton}
+          accessibilityLabel="Toggle Event Details"
+          onPress={toggleEventDetails}
+        >
+          <Ionicons
+            name={showEventDetails ? "caret-down" : "caret-forward"}
+            size={20}
+            color="#1e1e1e"
+          />
         </TouchableOpacity>
 
         <Text style={styles.eventInfoText}>Event Name @ Location</Text>
@@ -77,8 +89,22 @@ export default function MainScreen() {
           style={styles.bannerImage}
           resizeMode="cover"
         />
-
       </View>
+
+      {/* New Collapsible Event Details Area */}
+      {showEventDetails && (
+        <View style={styles.eventDetailsArea}>
+          <Text style={styles.eventDetailsText}>
+            This is where additional event information will go.
+          </Text>
+          <Text style={styles.eventDetailsText}>
+            For example, date, time, venue address, special notes, etc.
+          </Text>
+          <Text style={styles.eventDetailsText}>
+            It expands and collapses with the caret icon.
+          </Text>
+        </View>
+      )}
 
       {/* 3. Song Controls / Selection Header */}
       <View style={styles.songSelectHeader}>
@@ -162,6 +188,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+  },
+  eventDetailsArea: {
+    backgroundColor: '#fffbe6', // A light yellow background for event details
+    padding: 10,
+    marginHorizontal: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ffe0b2', // A slightly darker yellow border
+    marginBottom: 10,
+  },
+  eventDetailsText: {
+    fontSize: 16,
+    color: '#444',
+    marginBottom: 5,
   },
   expandedArea: {
     backgroundColor: '#f0f8ff', // Light blue background for the expanded area
