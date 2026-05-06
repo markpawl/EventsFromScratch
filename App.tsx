@@ -18,14 +18,25 @@ export default function MainScreen() {
   const [showExpandedArea, setShowExpandedArea] = useState(false);
   // New state for the event details area
   const [showEventDetails, setShowEventDetails] = useState(false);
-  // New state for the song details area
-  const [showSongDetails, setShowSongDetails] = useState(false);
-  const toggleSongDetails = () => setShowSongDetails(!showSongDetails);
+  const [showSongDetails, setShowSongDetails] = useState(false); // New state for the song details area
 
-  const toggleEventDetails = () => setShowEventDetails(!showEventDetails);
+  const toggleSongDetails = () => {
+    setShowSongDetails(!showSongDetails);
+    setShowExpandedArea(false);
+    setShowEventDetails(false);
+  };
 
+  const toggleEventDetails = () => {
+    setShowEventDetails(!showEventDetails);
+    setShowExpandedArea(false);
+    setShowSongDetails(false);
+  };
+
+  // This function now also closes other open sections
   const toggleExpandedArea = () => {
     setShowExpandedArea(!showExpandedArea);
+    setShowEventDetails(false);
+    setShowSongDetails(false);
   };
 
   return (
