@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 450 450" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs/>
+  <rect width="450" height="450" style="fill: rgb(237, 237, 237);"/>
+  <rect width="450" height="50" rx="3" ry="3" style="fill: rgb(213, 56, 56);"/>
+  <rect width="450" height="50" rx="3" ry="3" style="fill: rgb(213, 56, 56);" y="100"/>
+  <rect width="450" height="50" rx="3" ry="3" style="fill: rgb(213, 56, 56);" y="200"/>
+  <rect width="450" height="50" rx="3" ry="3" style="fill: rgb(213, 56, 56);" y="300"/>
+  <rect width="450" height="50" rx="3" ry="3" style="fill: rgb(213, 56, 56);" y="400"/>
+  <rect width="225" height="225" style="fill: rgb(70, 53, 171);"/>
+  <path d="M 45 135 L 56.125 168.636 L 90 169.362 L 63 190.876 L 72.812 224.961 L 45 204.621 L 17.188 224.961 L 27 190.876 L 0 169.362 L 33.875 168.636 Z" style="fill: rgb(232, 232, 232);" bx:shape="star 45 184.729 47.316 49.729 0.4 5 1@29447df6"/>
+  <path d="M 180 135 L 191.125 168.651 L 225 169.377 L 198 190.901 L 207.812 225 L 180 204.651 L 152.188 225 L 162 190.901 L 135 169.377 L 168.875 168.651 Z" style="fill: rgb(232, 232, 232);" bx:shape="star 180 184.751 47.316 49.751 0.4 5 1@a55ce5ee"/>
+  <path d="M 45 0 L 56.125 33.636 L 90 34.362 L 63 55.876 L 72.812 89.961 L 45 69.621 L 17.188 89.961 L 27 55.876 L 0 34.362 L 33.875 33.636 Z" style="fill: rgb(232, 232, 232);" bx:shape="star 45 49.729 47.316 49.729 0.4 5 1@43dd9b04"/>
+  <path d="M 180 0 L 191.125 33.651 L 225 34.377 L 198 55.901 L 207.812 90 L 180 69.651 L 152.188 90 L 162 55.901 L 135 34.377 L 168.875 33.651 Z" style="fill: rgb(232, 232, 232);" bx:shape="star 180 49.751 47.316 49.751 0.4 5 1@4278dfa2"/>
+  <path d="M 112 67 L 123.125 100.651 L 157 101.377 L 130 122.901 L 139.812 157 L 112 136.651 L 84.188 157 L 94 122.901 L 67 101.377 L 100.875 100.651 Z" style="fill: rgb(232, 232, 232);" bx:shape="star 112 116.751 47.316 49.751 0.4 5 1@c842adfb"/>
+</svg>

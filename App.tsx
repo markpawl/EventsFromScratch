@@ -1,20 +1,226 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { SvgUri } from 'react-native-svg';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Images } from './assets/images';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function App() {
+export default function MainScreen() {
+  const size: number = 30;
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+      {/* 1. Top Navigation Bar */}
+      <View style={styles.headerBar}>
+        <TouchableOpacity style={styles.menuButton} accessibilityLabel="Main Menu Button">
+          <Text style={styles.menuIcon}>☰</Text>
+        </TouchableOpacity>
+        <Text style={styles.artistName}>Artist - Fname Lname</Text>
+      </View>
+
+      {/* 2. Event Info Header */}
+      <View style={styles.eventContainer}>
+        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+          <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+        </TouchableOpacity>
+
+        <Text style={styles.eventInfoText}>Event Name @ Location</Text>
+
+        <Image
+          source={Images.logopng}
+          style={styles.bannerImage}
+          resizeMode="cover"
+        />
+
+      </View>
+
+      {/* 3. Song Controls / Selection Header */}
+      <View style={styles.songSelectHeader}>
+        <View style={styles.songInfoRow}>
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+            <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+          </TouchableOpacity>
+
+          <Text style={styles.songTitle}>Song Title</Text>
+          <Text style={styles.songPosition}>(a/b)</Text>
+        </View>
+
+        <View style={styles.controlsRow}>
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
+            <Ionicons name="caret-back" size={20} color="#1e1e1e" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+            <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+          </TouchableOpacity>
+          <View style={styles.languageToggles}>
+            <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
+              <SvgUri width="24" height="24" uri={Images.usaFlag} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
+              <SvgUri width="24" height="24" uri={Images.germanyFlag} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      {/* 4. Lyrics View */}
+      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+        <Text style={styles.lyricsText}>
+          Life has very simple plans{"\n"}
+          for such an ordinary man{"\n"}
+          day by day it fades away{"\n"}
+          anything better, is out of his hands{"\n\n"}
+          What’cha gonna do, What’cha gonna do today{"\n"}
+          What are you gonna do{"\n"}
+          What’cha gonna do, What’cha gonna do today{"\n"}
+          What are you gonna do{"\n\n"}
+          She gave her heart away{"\n"}
+          And tried her best to make him see{"\n"}
+          But today she held her breath{"\n"}
+          And declared at last that she was free
+        </Text>
+      </ScrollView>
+
+      {/* 5. Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>© Copyright and Footer Info</Text>
+      </View>
+      <StatusBar style="dark" />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
+  },
+  headerBar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    backgroundColor: '#52a9ce',
+  },
+  menuButton: {
+    padding: 8,
+  },
+  menuIcon: {
+    fontSize: 24,
+    color: '#333',
+  },
+  artistName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  eventContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    alignItems: 'center',    // Centers vertically
+    justifyContent: 'flex-start', 
+    backgroundColor: '#e4c82a',
+    gap: 8
+  },
+  bannerImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+  },
+  eventInfoText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#555',
+  },
+  songSelectHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#c076eb',
+    justifyContent: 'space-between',    
+    padding: 10,
+    // borderWidth: 1,
+    borderColor: '#eee',
+    marginBottom: 16,
+  },
+  songInfoRow: {
+    flexDirection: 'row',
+    //paddingLeft: 5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 8,
+  },
+  iconButton: {
+    paddingRight: 12,
+  },
+  songTitle: {
+    flex: 1,
+    fontSize: 18,
+    color: '#1e1e1e',
+  },
+  songPosition: {
+    fontSize: 16,
+    color: '#666',
+  },
+  controlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 8
+  },
+  controlButton: {
+    padding: 5,
+    backgroundColor: '#e9ecef',
+    borderRadius: 8,
+  },
+  iconText: {
+    fontSize: 20,
+  },
+  languageToggles: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  langButton: {
+    padding: 4,
+    backgroundColor: '#d0ebff',
+    borderRadius: 8,
+  },
+  langText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#0056b3',
+  },
+  lyricsContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+  },
+  lyricsContent: {
+    paddingBottom: 24,
+  },
+  lyricsText: {
+    fontSize: 18,
+    lineHeight: 28,
+    color: '#333',
+    textAlign: 'left',
+  },
+  footer: {
+    padding: 16,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+    backgroundColor: '#7fde88',
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#000'
   },
 });

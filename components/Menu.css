@@ -1,0 +1,48 @@
+h1{
+    margin:0px;
+}
+pre{
+    margin-top:0px;
+}
+.content{
+    line-height: normal;
+    font-family: sans-serif;
+    font-size: 1.2em;
+}
+.menumodal img{
+    width: 150px;
+}
+.menumodal {
+    position: absolute;
+    width: 250px;
+    left: 0px;
+    top: 42px;
+    background-color: hsl(34, 85%, 92%);
+    border: solid 1px chocolate;
+}
+.menuHeader{
+    margin: 10px;
+    display:flex;
+    flex-direction: row;
+}
+
+.menuInfo{
+    display:flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-bottom:10px;;
+}
+
+.menuInfo h3{
+    margin: 0px;
+    margin-bottom:5px;
+}
+
+.menu button{
+    position:absolute;
+    right:0px;
+    margin: 8px;
+    margin-top: 7px;
+    display:inline;
+    height: 28px;
+}
