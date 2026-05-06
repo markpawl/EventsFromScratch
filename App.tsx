@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import {
+import { useState } from 'react';
+import React, {
   View,
   Image,
   Text,
@@ -14,17 +14,55 @@ import { Images } from './assets/images';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function MainScreen() {
-  const size: number = 30;
+  const size: number = 30; // This `size` variable is not used in the provided code.
+  const [showExpandedArea, setShowExpandedArea] = useState(false);
+
+  const toggleExpandedArea = () => {
+    setShowExpandedArea(!showExpandedArea);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
       {/* 1. Top Navigation Bar */}
       <View style={styles.headerBar}>
-        <TouchableOpacity style={styles.menuButton} accessibilityLabel="Main Menu Button">
+        <TouchableOpacity
+          style={styles.menuButton}
+          accessibilityLabel="Main Menu Button"
+          onPress={toggleExpandedArea}
+        >
           <Text style={styles.menuIcon}>☰</Text>
         </TouchableOpacity>
         <Text style={styles.artistName}>Artist - Fname Lname</Text>
       </View>
+
+      {/* Expanded Area */}
+      {showExpandedArea && (
+        <View style={styles.expandedArea}>
+          <TouchableOpacity style={styles.closeButton} onPress={toggleExpandedArea}>
+            <Text style={styles.closeIcon}>X</Text>
+          </TouchableOpacity>
+          <View style={styles.expandedContent}>
+            <Text>This is the expanded information area.</Text>
+            <Text>It can contain various details about the event or app.</Text>
+            <Text>It should expand vertically based on its content.</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+            <Text>More content...</Text>
+          </View>
+        </View>
+      )}
 
       {/* 2. Event Info Header */}
       <View style={styles.eventContainer}>
@@ -125,6 +163,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
+  expandedArea: {
+    backgroundColor: '#f0f8ff', // Light blue background for the expanded area
+    padding: 10,
+    marginHorizontal: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#d0ebff',
+    marginBottom: 10,
+    // Initial square shape, will expand vertically with content
+    minHeight: 100,
+    justifyContent: 'space-between',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 5,
+    right: 10,
+    padding: 5,
+    zIndex: 1, // Ensure the button is clickable
+  },
+  closeIcon: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#666',
+  },
   eventContainer: {
     flexDirection: 'row',
     padding: 10,
@@ -133,8 +195,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#e4c82a',
     gap: 8
   },
-  bannerImage: {
-    width: 30,
+  bannerImage: { // This style is currently using a hardcoded width/height of 30.
+    width: 30, // Consider making this dynamic or responsive if needed.
     height: 30,
     borderRadius: 8,
   },
