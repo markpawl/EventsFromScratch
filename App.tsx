@@ -18,6 +18,9 @@ export default function MainScreen() {
   const [showExpandedArea, setShowExpandedArea] = useState(false);
   // New state for the event details area
   const [showEventDetails, setShowEventDetails] = useState(false);
+  // New state for the song details area
+  const [showSongDetails, setShowSongDetails] = useState(false);
+  const toggleSongDetails = () => setShowSongDetails(!showSongDetails);
 
   const toggleEventDetails = () => setShowEventDetails(!showEventDetails);
 
@@ -109,8 +112,16 @@ export default function MainScreen() {
       {/* 3. Song Controls / Selection Header */}
       <View style={styles.songSelectHeader}>
         <View style={styles.songInfoRow}>
-          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
-            <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+          <TouchableOpacity
+            style={styles.controlButton}
+            accessibilityLabel="Toggle Song Details"
+            onPress={toggleSongDetails}
+          >
+            <Ionicons
+              name={showSongDetails ? "caret-down" : "caret-forward"}
+              size={20}
+              color="#1e1e1e"
+            />
           </TouchableOpacity>
 
           <Text style={styles.songTitle}>Song Title</Text>
@@ -134,6 +145,21 @@ export default function MainScreen() {
           </View>
         </View>
       </View>
+
+      {/* New Collapsible Song Details Area */}
+      {showSongDetails && (
+        <View style={styles.songDetailsArea}>
+          <Text style={styles.songDetailsText}>
+            This section can display more details about the current song.
+          </Text>
+          <Text style={styles.songDetailsText}>
+            For example, composer, album, year, duration, etc.
+          </Text>
+          <Text style={styles.songDetailsText}>
+            It expands and collapses with the caret icon in the song info row.
+          </Text>
+        </View>
+      )}
 
       {/* 4. Lyrics View */}
       <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
@@ -188,6 +214,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+  },
+  songDetailsArea: {
+    backgroundColor: '#e6f7ff', // A light blue background for song details
+    padding: 10,
+    marginHorizontal: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#b3e0ff', // A slightly darker blue border
+    marginBottom: 10,
+  },
+  songDetailsText: {
+    fontSize: 16,
+    color: '#444',
+    marginBottom: 5,
   },
   eventDetailsArea: {
     backgroundColor: '#fffbe6', // A light yellow background for event details
