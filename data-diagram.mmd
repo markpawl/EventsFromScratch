@@ -1,0 +1,75 @@
+graph TD
+    subgraph EDS ["External Data Sources"]
+        A[events.js] -->|Provides event data| B(AppComponent)
+        C[localStorage] -->|Loads persisted set/song index| B
+    end
+
+    subgraph APP ["AppComponent (src/App.jsx)"]
+        B -->|Initializes event| D{"event: events['houseConcert3']"}
+        B -->|Initializes locater state| E{"locater: {event, setNumber, songNumber}"}
+        B -->|Initializes UI states| F{"showSidebar, showArtist, showVenue, showMenu"}
+
+        E -->|Derives current song/set details| G(getCurrent, getIsFirst, getIsLast)
+        G -->|Passes current, isFirst, isLast| H[PageContent]
+
+        E -- Updates --> C
+        C -- Persists --> E
+
+        subgraph UI ["UserInteractions (within App Component)"]
+            I[Header Click] -->|Toggles Artist Modal| F
+            J[Menu Button Click] -->|Toggles Menu Modal| F
+        end
+
+        subgraph SUF ["StateUpdateFunctions"]
+            K["onNext()"] -->|Updates locater| E
+            L["onPrevious()"] -->|Updates locater| E
+            M["toggleSidebar()"] -->|Updates showSidebar| F
+            N["toggleArtistModal()"] -->|Updates showArtist| F
+            O["toggleVenueModal()"] -->|Updates showVenue| F
+            P["toggleMenu()"] -->|Updates showMenu| F
+        end
+    end
+
+    subgraph CC ["ChildComponents"]
+        H -->|Receives current, isFirst, isLast, onNext, onPrevious| Q[PageContent]
+        F -->|Controls visibility| R(Menu)
+        F -->|Controls visibility| S(SetList Modal)
+        F -->|Controls visibility| T(Artist Modal)
+        F -->|Controls visibility| U(Venue Modal)
+
+        R -->|Receives show, closeMenu| P
+        S -->|Receives show| V[SetList]
+        T -->|Receives show| W[Artist]
+        U -->|Receives show| X[Venue]
+
+        V -->|Receives setLocater, locater, closeModal| E
+        V -->|Receives setLocater| K
+        V -->|Receives closeModal| M
+
+        W -->|Receives closeModal, artist| N
+        X -->|Receives closeModal, venue| O
+
+        Q -->|Triggers onNext| K
+        Q -->|Triggers onPrevious| L
+        Q -->|Triggers toggleSidebar| M
+        Q -->|Triggers toggleVenueModal| O
+    end
+
+    style B fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
+    style G fill:#ccf,stroke:#333,stroke-width:1px
+    style K fill:#ccf,stroke:#333,stroke-width:1px
+    style L fill:#ccf,stroke:#333,stroke-width:1px
+    style M fill:#ccf,stroke:#333,stroke-width:1px
+    style N fill:#ccf,stroke:#333,stroke-width:1px
+    style O fill:#ccf,stroke:#333,stroke-width:1px
+    style P fill:#ccf,stroke:#333,stroke-width:1px
+    style Q fill:#eef,stroke:#333,stroke-width:1px
+    style R fill:#eef,stroke:#333,stroke-width:1px
+    style S fill:#eef,stroke:#333,stroke-width:1px
+    style T fill:#eef,stroke:#333,stroke-width:1px
+    style U fill:#eef,stroke:#333,stroke-width:1px
+    style V fill:#eef,stroke:#333,stroke-width:1px
+    style W fill:#eef,stroke:#333,stroke-width:1px
+    style X fill:#eef,stroke:#333,stroke-width:1px

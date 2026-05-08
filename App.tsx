@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React, {
   View,
   Image,
@@ -13,6 +13,31 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Images } from './assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { AboutApp } from './components/AboutApp';
+const storageKey = 'setAndSong';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PerformanceEvent, LocaterState, CurrentState } from './data/types';
+import getPerformanceEvent from './data/events';
+
+const performanceEvent = getPerformanceEvent("houseConcert3");
+
+// Since this is async, wrap it in a function
+const loadSettings = async () => {
+  try {
+    // 1. Use getItem with await
+    let storedSetAndSongString = await AsyncStorage.getItem(storageKey);
+
+    if (storedSetAndSongString) {
+      let storedSetAndSong = JSON.parse(storedSetAndSongString);
+
+      // 2. Update your state/locater here
+      const defaultLocater = { event: performanceEvent, ...storedSetAndSong };
+      return defaultLocater;
+    }
+  } catch (e) {
+    console.error("Failed to load settings", e);
+  }
+};
+
 
 export default function App() {
   return (
@@ -24,11 +49,92 @@ export default function App() {
 
 
 function MainScreen() {
-  const size: number = 30;
   const [showExpandedArea, setShowExpandedArea] = useState(false);
   const [showEventDetails, setShowEventDetails] = useState(false);
   const [showSongDetails, setShowSongDetails] = useState(false);
+  const storageKey = 'setAndSong';
+  const defaultLocater:LocaterState = { performanceEvent: performanceEvent, setNumber: 0, songNumber: 0 };
+  const [locater, setLocater] = useState(defaultLocater);
 
+  useEffect(() => {
+    const initializeData = async () => {
+      const storedData = await AsyncStorage.getItem(storageKey);
+      if (storedData) {
+        const parsed = JSON.parse(storedData);
+        setLocater(prev => ({ ...prev, ...parsed }));
+      }
+    };
+
+    initializeData();
+  }, []);
+  // should the above be...
+  // }, [locater]); // This would cause an infinite loop, so we should leave the dependency array empty to run only on mount.
+
+/* manage the app's data state */
+    function getCurrent(locater: LocaterState) {
+        let currentSet = locater.performanceEvent.sets[locater.setNumber];
+        let currentSong = currentSet.songs[locater.songNumber];
+        let position = (locater.songNumber + 1) + "/" + currentSet.songs.length;
+        return { "event": locater.performanceEvent, "songSet": currentSet, "song": currentSong, "position": position };
+    }
+
+    function getIsFirst(){
+        if(locater.setNumber === 0 && locater.songNumber === 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getIsLast(){
+        let lastSetIdx = locater.performanceEvent.sets.length - 1;
+        let lastSongIdx = performanceEvent.sets[lastSetIdx].songs.length -1;
+        if(locater.setNumber === lastSetIdx && locater.songNumber === lastSongIdx){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    let current = getCurrent(locater);
+    let isFirst = getIsFirst();
+    let isLast = getIsLast();
+
+    function onNext() {
+        /* locater = {event:event, setNumber:0, songNumber:0}
+           current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
+        let songCountForSet = current.songSet.songs.length;
+        let newSongNumber = locater.songNumber + 1;
+
+        if (newSongNumber < songCountForSet) {
+            setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
+            return;
+        }
+        let newSetNumber = locater.setNumber + 1;
+        if (newSetNumber < locater.performanceEvent.sets.length) {
+            setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: 0 });
+            return;
+        }
+    }
+
+    function onPrevious() {
+        /* locater = {event:event, setNumber:0, songNumber:0}
+           current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
+        let newSongNumber = locater.songNumber - 1;
+
+        if (newSongNumber >= 0) {
+            setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
+            return;
+        }
+        let newSetNumber = locater.setNumber - 1;
+        if (newSetNumber >= 0) {
+            let newSongNumber = locater.performanceEvent.sets[newSetNumber].songs.length
+            setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: (newSongNumber - 1) });
+            return;
+        }
+    }
+
+/* manage UI state - for the collapsible sections, we want to ensure that only one can be open at a time, so we will close the others when one is toggled */
   const toggleSongDetails = () => {
     setShowSongDetails(!showSongDetails);
     setShowExpandedArea(false);
@@ -122,22 +228,22 @@ function MainScreen() {
           <Text style={styles.songTitle}>Song Title</Text>
           <Text style={styles.songPosition}>(a/b)</Text>
         </View>
-      <View style={styles.controlsRow}>
-        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
-          <Ionicons name="caret-back" size={20} color="#1e1e1e" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
-          <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
-        </TouchableOpacity>
-        <View style={styles.languageToggles}>
-          <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
-            <SvgUri width="24" height="24" uri={Images.usaFlag} />
+        <View style={styles.controlsRow}>
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
+            <Ionicons name="caret-back" size={20} color="#1e1e1e" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
-            <SvgUri width="24" height="24" uri={Images.germanyFlag} />
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+            <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
           </TouchableOpacity>
+          <View style={styles.languageToggles}>
+            <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
+              <SvgUri width="24" height="24" uri={Images.usaFlag} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
+              <SvgUri width="24" height="24" uri={Images.germanyFlag} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       </View>
 
       {/* New Collapsible Song Details Area */}
@@ -175,12 +281,12 @@ function MainScreen() {
 
       {/* 5. Footer */}
       <>
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© Copyright and Footer Info</Text>
-      </View>
-      <View>
-        <StatusBar style="dark" />
-      </View>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© Copyright and Footer Info</Text>
+        </View>
+        <View>
+          <StatusBar style="dark" />
+        </View>
       </>
     </SafeAreaView>
   );
