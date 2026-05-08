@@ -12,6 +12,7 @@ import { SvgUri } from 'react-native-svg';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Images } from './assets/images';
 import { Ionicons } from '@expo/vector-icons';
+import { AboutApp } from './components/AboutApp';
 
 export default function MainScreen() {
   const size: number = 30; // This `size` variable is not used in the provided code.
@@ -42,101 +43,89 @@ export default function MainScreen() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-      {/* 1. Top Navigation Bar */}
-      <View style={styles.headerBar}>
-        <TouchableOpacity
-          style={styles.menuButton}
-          accessibilityLabel="Main Menu Button"
-          onPress={toggleExpandedArea}
-        >
-          <Text style={styles.menuIcon}>☰</Text>
-        </TouchableOpacity>
-        <Text style={styles.artistName}>Artist - Fname Lname</Text>
-      </View>
-
-      {/* Expanded Area */}
-      {showExpandedArea && (
-        <View style={styles.expandedArea}>
-          <TouchableOpacity style={styles.closeButton} onPress={toggleExpandedArea}>
-            <Text style={styles.closeIcon}>X</Text>
+        {/* 1. Top Navigation Bar */}
+        <View style={styles.headerBar}>
+          <TouchableOpacity
+            style={styles.menuButton}
+            accessibilityLabel="Main Menu Button"
+            onPress={toggleExpandedArea}
+          >
+            <Text style={styles.menuIcon}>☰</Text>
           </TouchableOpacity>
-          <View style={styles.expandedContent}>
-            <Text>This is the expanded information area.</Text>
-            <Text>It can contain various details about the event or app.</Text>
-            <Text>It should expand vertically based on its content.</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
-            <Text>More content...</Text>
+          <Text style={styles.artistName}>Artist - Fname Lname</Text>
+        </View>
+
+        {/* Expanded Area */}
+      /*
+        {showExpandedArea && (
+          <View style={styles.expandedArea}>
+            <TouchableOpacity style={styles.closeButton} onPress={toggleExpandedArea}>
+              <Text style={styles.closeIcon}>X</Text>
+            </TouchableOpacity>
+            <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
           </View>
-        </View>
-      )}
+        )}
+        */
+        {showExpandedArea && (
+          <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
+        )}
 
-      {/* 2. Event Info Header */}
-      <View style={styles.eventContainer}>
-        <TouchableOpacity
-          style={styles.controlButton}
-          accessibilityLabel="Toggle Event Details"
-          onPress={toggleEventDetails}
-        >
-          <Ionicons
-            name={showEventDetails ? "caret-down" : "caret-forward"}
-            size={20}
-            color="#1e1e1e"
-          />
-        </TouchableOpacity>
-
-        <Text style={styles.eventInfoText}>Event Name @ Location</Text>
-
-        <Image
-          source={Images.logopng}
-          style={styles.bannerImage}
-          resizeMode="cover"
-        />
-      </View>
-
-      {/* New Collapsible Event Details Area */}
-      {showEventDetails && (
-        <View style={styles.eventDetailsArea}>
-          <Text style={styles.eventDetailsText}>
-            This is where additional event information will go.
-          </Text>
-          <Text style={styles.eventDetailsText}>
-            For example, date, time, venue address, special notes, etc.
-          </Text>
-          <Text style={styles.eventDetailsText}>
-            It expands and collapses with the caret icon.
-          </Text>
-        </View>
-      )}
-
-      {/* 3. Song Controls / Selection Header */}
-      <View style={styles.songSelectHeader}>
-        <View style={styles.songInfoRow}>
+        {/* 2. Event Info Header */}
+        <View style={styles.eventContainer}>
           <TouchableOpacity
             style={styles.controlButton}
-            accessibilityLabel="Toggle Song Details"
-            onPress={toggleSongDetails}
+            accessibilityLabel="Toggle Event Details"
+            onPress={toggleEventDetails}
           >
             <Ionicons
-              name={showSongDetails ? "caret-down" : "caret-forward"}
+              name={showEventDetails ? "caret-down" : "caret-forward"}
               size={20}
               color="#1e1e1e"
             />
           </TouchableOpacity>
 
-          <Text style={styles.songTitle}>Song Title</Text>
-          <Text style={styles.songPosition}>(a/b)</Text>
+          <Text style={styles.eventInfoText}>Event Name @ Location</Text>
+
+          <Image
+            source={Images.turtlelogo}
+            style={styles.bannerImage}
+            resizeMode="cover"
+          />
+        </View>
+
+        {/* New Collapsible Event Details Area */}
+        {showEventDetails && (
+          <View style={styles.eventDetailsArea}>
+            <Text style={styles.eventDetailsText}>
+              This is where additional event information will go.
+            </Text>
+            <Text style={styles.eventDetailsText}>
+              For example, date, time, venue address, special notes, etc.
+            </Text>
+            <Text style={styles.eventDetailsText}>
+              It expands and collapses with the caret icon.
+            </Text>
+          </View>
+        )}
+
+        {/* 3. Song Controls / Selection Header */}
+        <View style={styles.songSelectHeader}>
+          <View style={styles.songInfoRow}>
+            <TouchableOpacity
+              style={styles.controlButton}
+              accessibilityLabel="Toggle Song Details"
+              onPress={toggleSongDetails}
+            >
+              <Ionicons
+                name={showSongDetails ? "caret-down" : "caret-forward"}
+                size={20}
+                color="#1e1e1e"
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.songTitle}>Song Title</Text>
+            <Text style={styles.songPosition}>(a/b)</Text>
+          </View>
         </View>
 
         <View style={styles.controlsRow}>
@@ -155,46 +144,45 @@ export default function MainScreen() {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
 
-      {/* New Collapsible Song Details Area */}
-      {showSongDetails && (
-        <View style={styles.songDetailsArea}>
-          <Text style={styles.songDetailsText}>
-            This section can display more details about the current song.
+        {/* New Collapsible Song Details Area */}
+        {showSongDetails && (
+          <View style={styles.songDetailsArea}>
+            <Text style={styles.songDetailsText}>
+              This section can display more details about the current song.
+            </Text>
+            <Text style={styles.songDetailsText}>
+              For example, composer, album, year, duration, etc.
+            </Text>
+            <Text style={styles.songDetailsText}>
+              It expands and collapses with the caret icon in the song info row.
+            </Text>
+          </View>
+        )}
+
+        {/* 4. Lyrics View */}
+        <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+          <Text style={styles.lyricsText}>
+            Life has very simple plans{"\n"}
+            for such an ordinary man{"\n"}
+            day by day it fades away{"\n"}
+            anything better, is out of his hands{"\n\n"}
+            What’cha gonna do, What’cha gonna do today{"\n"}
+            What are you gonna do{"\n"}
+            What’cha gonna do, What’cha gonna do today{"\n"}
+            What are you gonna do{"\n\n"}
+            She gave her heart away{"\n"}
+            And tried her best to make him see{"\n"}
+            But today she held her breath{"\n"}
+            And declared at last that she was free
           </Text>
-          <Text style={styles.songDetailsText}>
-            For example, composer, album, year, duration, etc.
-          </Text>
-          <Text style={styles.songDetailsText}>
-            It expands and collapses with the caret icon in the song info row.
-          </Text>
+        </ScrollView>
+
+        {/* 5. Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© Copyright and Footer Info</Text>
         </View>
-      )}
-
-      {/* 4. Lyrics View */}
-      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
-        <Text style={styles.lyricsText}>
-          Life has very simple plans{"\n"}
-          for such an ordinary man{"\n"}
-          day by day it fades away{"\n"}
-          anything better, is out of his hands{"\n\n"}
-          What’cha gonna do, What’cha gonna do today{"\n"}
-          What are you gonna do{"\n"}
-          What’cha gonna do, What’cha gonna do today{"\n"}
-          What are you gonna do{"\n\n"}
-          She gave her heart away{"\n"}
-          And tried her best to make him see{"\n"}
-          But today she held her breath{"\n"}
-          And declared at last that she was free
-        </Text>
-      </ScrollView>
-
-      {/* 5. Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© Copyright and Footer Info</Text>
-      </View>
-      <StatusBar style="dark" />
+      /* <StatusBar style="dark" /> */
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -282,7 +270,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',    // Centers vertically
-    justifyContent: 'flex-start', 
+    justifyContent: 'flex-start',
     backgroundColor: '#e4c82a',
     gap: 8
   },
@@ -299,7 +287,7 @@ const styles = StyleSheet.create({
   songSelectHeader: {
     flexDirection: 'row',
     backgroundColor: '#c076eb',
-    justifyContent: 'space-between',    
+    justifyContent: 'space-between',
     padding: 10,
     // borderWidth: 1,
     borderColor: '#eee',
