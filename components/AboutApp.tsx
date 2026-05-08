@@ -1,17 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
 import { AboutAppStyles } from './AboutAppStyles';
-import { Images } from '../assets/images'; // Assuming Images is global and includes qrCode
+import { Images } from '../assets/images';
 
 interface AboutAppProps {
   show: boolean;
-  closeMenu: (event: any) => void; // event type can be more specific if needed
+  closeMenu: (event: any) => void; 
 }
 
 export function AboutApp(params: AboutAppProps) {
-  // The 'show'/'hide' logic will be handled by conditional rendering in the parent component
-  // or by setting opacity/display style dynamically if it needs to be mounted but hidden.
-  // For now, assuming it's conditionally rendered.
 
   let preText =
     `This app contains:

@@ -14,12 +14,20 @@ import { Images } from './assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { AboutApp } from './components/AboutApp';
 
-export default function MainScreen() {
-  const size: number = 30; // This `size` variable is not used in the provided code.
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <MainScreen />
+    </SafeAreaProvider>
+  );
+}
+
+
+function MainScreen() {
+  const size: number = 30;
   const [showExpandedArea, setShowExpandedArea] = useState(false);
-  // New state for the event details area
   const [showEventDetails, setShowEventDetails] = useState(false);
-  const [showSongDetails, setShowSongDetails] = useState(false); // New state for the song details area
+  const [showSongDetails, setShowSongDetails] = useState(false);
 
   const toggleSongDetails = () => {
     setShowSongDetails(!showSongDetails);
@@ -33,7 +41,7 @@ export default function MainScreen() {
     setShowSongDetails(false);
   };
 
-  // This function now also closes other open sections
+  { /* This function now also closes other open sections */ }
   const toggleExpandedArea = () => {
     setShowExpandedArea(!showExpandedArea);
     setShowEventDetails(false);
@@ -41,150 +49,140 @@ export default function MainScreen() {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        {/* 1. Top Navigation Bar */}
-        <View style={styles.headerBar}>
-          <TouchableOpacity
-            style={styles.menuButton}
-            accessibilityLabel="Main Menu Button"
-            onPress={toggleExpandedArea}
-          >
-            <Text style={styles.menuIcon}>☰</Text>
-          </TouchableOpacity>
-          <Text style={styles.artistName}>Artist - Fname Lname</Text>
+    <SafeAreaView style={styles.container}>
+      {/* 1. Top Navigation Bar */}
+      <View style={styles.headerBar}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          accessibilityLabel="Main Menu Button"
+          onPress={toggleExpandedArea}
+        >
+          <Text style={styles.menuIcon}>☰</Text>
+        </TouchableOpacity>
+        <Text style={styles.artistName}>Artist - Fname Lname</Text>
+      </View>
+
+      {/* Expanded Area */}
+      {showExpandedArea && (
+        <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
+      )}
+
+      {/* 2. Event Info Header */}
+      <View style={styles.eventContainer}>
+        <TouchableOpacity
+          style={styles.controlButton}
+          accessibilityLabel="Toggle Event Details"
+          onPress={toggleEventDetails}
+        >
+          <Ionicons
+            name={showEventDetails ? "caret-down" : "caret-forward"}
+            size={20}
+            color="#1e1e1e"
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.eventInfoText}>Event Name @ Location</Text>
+
+        <Image
+          source={Images.turtlelogo}
+          style={styles.bannerImage}
+          resizeMode="cover"
+        />
+      </View>
+
+      {/* New Collapsible Event Details Area */}
+      {showEventDetails && (
+        <View style={styles.eventDetailsArea}>
+          <Text style={styles.eventDetailsText}>
+            This is where additional event information will go.
+          </Text>
+          <Text style={styles.eventDetailsText}>
+            For example, date, time, venue address, special notes, etc.
+          </Text>
+          <Text style={styles.eventDetailsText}>
+            It expands and collapses with the caret icon.
+          </Text>
         </View>
+      )}
 
-        {/* Expanded Area */}
-      /*
-        {showExpandedArea && (
-          <View style={styles.expandedArea}>
-            <TouchableOpacity style={styles.closeButton} onPress={toggleExpandedArea}>
-              <Text style={styles.closeIcon}>X</Text>
-            </TouchableOpacity>
-            <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
-          </View>
-        )}
-        */
-        {showExpandedArea && (
-          <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
-        )}
-
-        {/* 2. Event Info Header */}
-        <View style={styles.eventContainer}>
+      {/* 3. Song Controls / Selection Header */}
+      <View style={styles.songSelectHeader}>
+        <View style={styles.songInfoRow}>
           <TouchableOpacity
             style={styles.controlButton}
-            accessibilityLabel="Toggle Event Details"
-            onPress={toggleEventDetails}
+            accessibilityLabel="Toggle Song Details"
+            onPress={toggleSongDetails}
           >
             <Ionicons
-              name={showEventDetails ? "caret-down" : "caret-forward"}
+              name={showSongDetails ? "caret-down" : "caret-forward"}
               size={20}
               color="#1e1e1e"
             />
           </TouchableOpacity>
-
-          <Text style={styles.eventInfoText}>Event Name @ Location</Text>
-
-          <Image
-            source={Images.turtlelogo}
-            style={styles.bannerImage}
-            resizeMode="cover"
-          />
+          <Text style={styles.songTitle}>Song Title</Text>
+          <Text style={styles.songPosition}>(a/b)</Text>
         </View>
-
-        {/* New Collapsible Event Details Area */}
-        {showEventDetails && (
-          <View style={styles.eventDetailsArea}>
-            <Text style={styles.eventDetailsText}>
-              This is where additional event information will go.
-            </Text>
-            <Text style={styles.eventDetailsText}>
-              For example, date, time, venue address, special notes, etc.
-            </Text>
-            <Text style={styles.eventDetailsText}>
-              It expands and collapses with the caret icon.
-            </Text>
-          </View>
-        )}
-
-        {/* 3. Song Controls / Selection Header */}
-        <View style={styles.songSelectHeader}>
-          <View style={styles.songInfoRow}>
-            <TouchableOpacity
-              style={styles.controlButton}
-              accessibilityLabel="Toggle Song Details"
-              onPress={toggleSongDetails}
-            >
-              <Ionicons
-                name={showSongDetails ? "caret-down" : "caret-forward"}
-                size={20}
-                color="#1e1e1e"
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.songTitle}>Song Title</Text>
-            <Text style={styles.songPosition}>(a/b)</Text>
-          </View>
-        </View>
-
-        <View style={styles.controlsRow}>
-          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
-            <Ionicons name="caret-back" size={20} color="#1e1e1e" />
+      <View style={styles.controlsRow}>
+        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
+          <Ionicons name="caret-back" size={20} color="#1e1e1e" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+          <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+        </TouchableOpacity>
+        <View style={styles.languageToggles}>
+          <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
+            <SvgUri width="24" height="24" uri={Images.usaFlag} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
-            <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
+          <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
+            <SvgUri width="24" height="24" uri={Images.germanyFlag} />
           </TouchableOpacity>
-          <View style={styles.languageToggles}>
-            <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
-              <SvgUri width="24" height="24" uri={Images.usaFlag} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
-              <SvgUri width="24" height="24" uri={Images.germanyFlag} />
-            </TouchableOpacity>
-          </View>
         </View>
+      </View>
+      </View>
 
-        {/* New Collapsible Song Details Area */}
-        {showSongDetails && (
-          <View style={styles.songDetailsArea}>
-            <Text style={styles.songDetailsText}>
-              This section can display more details about the current song.
-            </Text>
-            <Text style={styles.songDetailsText}>
-              For example, composer, album, year, duration, etc.
-            </Text>
-            <Text style={styles.songDetailsText}>
-              It expands and collapses with the caret icon in the song info row.
-            </Text>
-          </View>
-        )}
-
-        {/* 4. Lyrics View */}
-        <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
-          <Text style={styles.lyricsText}>
-            Life has very simple plans{"\n"}
-            for such an ordinary man{"\n"}
-            day by day it fades away{"\n"}
-            anything better, is out of his hands{"\n\n"}
-            What’cha gonna do, What’cha gonna do today{"\n"}
-            What are you gonna do{"\n"}
-            What’cha gonna do, What’cha gonna do today{"\n"}
-            What are you gonna do{"\n\n"}
-            She gave her heart away{"\n"}
-            And tried her best to make him see{"\n"}
-            But today she held her breath{"\n"}
-            And declared at last that she was free
+      {/* New Collapsible Song Details Area */}
+      {showSongDetails && (
+        <View style={styles.songDetailsArea}>
+          <Text style={styles.songDetailsText}>
+            This section can display more details about the current song.
           </Text>
-        </ScrollView>
-
-        {/* 5. Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>© Copyright and Footer Info</Text>
+          <Text style={styles.songDetailsText}>
+            For example, composer, album, year, duration, etc.
+          </Text>
+          <Text style={styles.songDetailsText}>
+            It expands and collapses with the caret icon in the song info row.
+          </Text>
         </View>
-      /* <StatusBar style="dark" /> */
-      </SafeAreaView>
-    </SafeAreaProvider>
+      )}
+
+      {/* 4. Lyrics View */}
+      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+        <Text style={styles.lyricsText}>
+          Life has very simple plans{"\n"}
+          for such an ordinary man{"\n"}
+          day by day it fades away{"\n"}
+          anything better, is out of his hands{"\n\n"}
+          What’cha gonna do, What’cha gonna do today{"\n"}
+          What are you gonna do{"\n"}
+          What’cha gonna do, What’cha gonna do today{"\n"}
+          What are you gonna do{"\n\n"}
+          She gave her heart away{"\n"}
+          And tried her best to make him see{"\n"}
+          But today she held her breath{"\n"}
+          And declared at last that she was free
+        </Text>
+      </ScrollView>
+
+      {/* 5. Footer */}
+      <>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>© Copyright and Footer Info</Text>
+      </View>
+      <View>
+        <StatusBar style="dark" />
+      </View>
+      </>
+    </SafeAreaView>
   );
 }
 
