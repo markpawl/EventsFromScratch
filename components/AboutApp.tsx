@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
 import { AboutAppStyles } from './AboutAppStyles';
 import { Images } from '../assets/images';
+import { Ionicons } from '@expo/vector-icons';
 
 interface AboutAppProps {
   show: boolean;
@@ -21,7 +22,7 @@ export function AboutApp(params: AboutAppProps) {
   return (
     <View style={AboutAppStyles.container}>
       <TouchableOpacity style={AboutAppStyles.menuButton} onPress={params.closeMenu}>
-        <Text style={AboutAppStyles.closeIcon}>X</Text>
+        <Ionicons name="close-circle-outline" size={32} color="#333" />
       </TouchableOpacity>
       <View style={AboutAppStyles.menuHeader}>
         <Text style={AboutAppStyles.menuHeaderH1}>Event App</Text>

@@ -17,6 +17,8 @@ const storageKey = 'setAndSong';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PerformanceEvent, LocaterState, CurrentState } from './data/types';
 import getPerformanceEvent from './data/events';
+import { ArtistInfo } from './components/Artist';
+import { VenueInfo } from './components/Venue';
 
 const performanceEvent = getPerformanceEvent("houseConcert3");
 
@@ -49,11 +51,12 @@ export default function App() {
 
 
 function MainScreen() {
-  const [showExpandedArea, setShowExpandedArea] = useState(false);
+  const [showAppInfo, setShowAppInfo] = useState(false);
+  const [showArtistInfo, setShowArtistInfo] = useState(false);
   const [showEventDetails, setShowEventDetails] = useState(false);
   const [showSongDetails, setShowSongDetails] = useState(false);
   const storageKey = 'setAndSong';
-  const defaultLocater:LocaterState = { performanceEvent: performanceEvent, setNumber: 0, songNumber: 0 };
+  const defaultLocater: LocaterState = { performanceEvent: performanceEvent, setNumber: 0, songNumber: 0 };
   const [locater, setLocater] = useState(defaultLocater);
 
   useEffect(() => {
@@ -70,86 +73,98 @@ function MainScreen() {
   // should the above be...
   // }, [locater]); // This would cause an infinite loop, so we should leave the dependency array empty to run only on mount.
 
-/* manage the app's data state */
-    function getCurrent(locater: LocaterState) {
-        let currentSet = locater.performanceEvent.sets[locater.setNumber];
-        let currentSong = currentSet.songs[locater.songNumber];
-        let position = (locater.songNumber + 1) + "/" + currentSet.songs.length;
-        return { "event": locater.performanceEvent, "songSet": currentSet, "song": currentSong, "position": position };
+  /* manage the app's data state */
+  function getCurrent(locater: LocaterState) {
+    let currentSet = locater.performanceEvent.sets[locater.setNumber];
+    let currentSong = currentSet.songs[locater.songNumber];
+    let position = (locater.songNumber + 1) + "/" + currentSet.songs.length;
+    return { "event": locater.performanceEvent, "songSet": currentSet, "song": currentSong, "position": position };
+  }
+
+  function getIsFirst() {
+    if (locater.setNumber === 0 && locater.songNumber === 0) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    function getIsFirst(){
-        if(locater.setNumber === 0 && locater.songNumber === 0){
-            return true;
-        }else{
-            return false;
-        }
+  function getIsLast() {
+    let lastSetIdx = locater.performanceEvent.sets.length - 1;
+    let lastSongIdx = performanceEvent.sets[lastSetIdx].songs.length - 1;
+    if (locater.setNumber === lastSetIdx && locater.songNumber === lastSongIdx) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    function getIsLast(){
-        let lastSetIdx = locater.performanceEvent.sets.length - 1;
-        let lastSongIdx = performanceEvent.sets[lastSetIdx].songs.length -1;
-        if(locater.setNumber === lastSetIdx && locater.songNumber === lastSongIdx){
-            return true;
-        }else{
-            return false;
-        }
+  let current = getCurrent(locater);
+  let isFirst = getIsFirst();
+  let isLast = getIsLast();
+
+  function onNext() {
+    /* locater = {event:event, setNumber:0, songNumber:0}
+       current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
+    let songCountForSet = current.songSet.songs.length;
+    let newSongNumber = locater.songNumber + 1;
+
+    if (newSongNumber < songCountForSet) {
+      setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
+      return;
     }
-
-    let current = getCurrent(locater);
-    let isFirst = getIsFirst();
-    let isLast = getIsLast();
-
-    function onNext() {
-        /* locater = {event:event, setNumber:0, songNumber:0}
-           current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
-        let songCountForSet = current.songSet.songs.length;
-        let newSongNumber = locater.songNumber + 1;
-
-        if (newSongNumber < songCountForSet) {
-            setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
-            return;
-        }
-        let newSetNumber = locater.setNumber + 1;
-        if (newSetNumber < locater.performanceEvent.sets.length) {
-            setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: 0 });
-            return;
-        }
+    let newSetNumber = locater.setNumber + 1;
+    if (newSetNumber < locater.performanceEvent.sets.length) {
+      setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: 0 });
+      return;
     }
+  }
 
-    function onPrevious() {
-        /* locater = {event:event, setNumber:0, songNumber:0}
-           current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
-        let newSongNumber = locater.songNumber - 1;
+  function onPrevious() {
+    /* locater = {event:event, setNumber:0, songNumber:0}
+       current = {"event":locater.event, "songSet": currentSet, "song": currentSong}; */
+    let newSongNumber = locater.songNumber - 1;
 
-        if (newSongNumber >= 0) {
-            setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
-            return;
-        }
-        let newSetNumber = locater.setNumber - 1;
-        if (newSetNumber >= 0) {
-            let newSongNumber = locater.performanceEvent.sets[newSetNumber].songs.length
-            setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: (newSongNumber - 1) });
-            return;
-        }
+    if (newSongNumber >= 0) {
+      setLocater({ performanceEvent: locater.performanceEvent, setNumber: locater.setNumber, songNumber: newSongNumber });
+      return;
     }
+    let newSetNumber = locater.setNumber - 1;
+    if (newSetNumber >= 0) {
+      let newSongNumber = locater.performanceEvent.sets[newSetNumber].songs.length
+      setLocater({ performanceEvent: locater.performanceEvent, setNumber: newSetNumber, songNumber: (newSongNumber - 1) });
+      return;
+    }
+  }
 
-/* manage UI state - for the collapsible sections, we want to ensure that only one can be open at a time, so we will close the others when one is toggled */
+  /* manage UI state - for the collapsible sections, 
+    we want to ensure that only one can be open at a time, 
+    so we will close the others when one is toggled */
   const toggleSongDetails = () => {
     setShowSongDetails(!showSongDetails);
-    setShowExpandedArea(false);
+    setShowArtistInfo(false);
+    setShowAppInfo(false);
     setShowEventDetails(false);
   };
 
   const toggleEventDetails = () => {
     setShowEventDetails(!showEventDetails);
-    setShowExpandedArea(false);
+    setShowArtistInfo(false);
+    setShowAppInfo(false);
     setShowSongDetails(false);
   };
 
   { /* This function now also closes other open sections */ }
-  const toggleExpandedArea = () => {
-    setShowExpandedArea(!showExpandedArea);
+  const toggleAppInfo = () => {
+    setShowAppInfo(!showAppInfo);
+    setShowArtistInfo(false);
+    setShowEventDetails(false);
+    setShowSongDetails(false);
+  };
+
+  const toggleArtistInfo = () => {
+    setShowArtistInfo(!showArtistInfo);
+    setShowAppInfo(false);
     setShowEventDetails(false);
     setShowSongDetails(false);
   };
@@ -161,16 +176,31 @@ function MainScreen() {
         <TouchableOpacity
           style={styles.menuButton}
           accessibilityLabel="Main Menu Button"
-          onPress={toggleExpandedArea}
+          onPress={toggleAppInfo}
         >
           <Text style={styles.menuIcon}>☰</Text>
         </TouchableOpacity>
-        <Text style={styles.artistName}>Artist - Fname Lname</Text>
+        <TouchableOpacity
+          style={styles.menuButton}
+          accessibilityLabel="Artist Info Button"
+          onPress={toggleArtistInfo}
+        >
+          <Text style={styles.artistName}>Artist - Fname Lname</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Expanded Area */}
-      {showExpandedArea && (
-        <AboutApp show={true} closeMenu={() => toggleExpandedArea()} />
+      {/* AppInfo Area */}
+      {showAppInfo && (
+        <AboutApp
+          show={true}
+          closeMenu={() => toggleAppInfo()} />
+      )}
+
+      {/* Artist Info Area */}
+      {showArtistInfo && (
+        <ArtistInfo
+          artist={current.event.artist}
+          closeSection={() => toggleArtistInfo()} />
       )}
 
       {/* 2. Event Info Header */}
@@ -198,16 +228,22 @@ function MainScreen() {
 
       {/* New Collapsible Event Details Area */}
       {showEventDetails && (
-        <View style={styles.eventDetailsArea}>
-          <Text style={styles.eventDetailsText}>
-            This is where additional event information will go.
-          </Text>
-          <Text style={styles.eventDetailsText}>
-            For example, date, time, venue address, special notes, etc.
-          </Text>
-          <Text style={styles.eventDetailsText}>
-            It expands and collapses with the caret icon.
-          </Text>
+        <View>
+          <VenueInfo 
+            venue={current.event.venue} 
+            closeVenueInfo={() => toggleEventDetails()} />
+
+          <View style={styles.eventDetailsArea}>
+            <Text style={styles.eventDetailsText}>
+              This is where additional event information will go.
+            </Text>
+            <Text style={styles.eventDetailsText}>
+              For example, date, time, venue address, special notes, etc.
+            </Text>
+            <Text style={styles.eventDetailsText}>
+              It expands and collapses with the caret icon.
+            </Text>
+          </View>
         </View>
       )}
 

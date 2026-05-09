@@ -7,4 +7,5 @@ export const Images = {
   usaFlag: Asset.fromModule(require('./usaFlag.svg')).uri,
   germanyFlag: Asset.fromModule(require('./germanyFlag.svg')).uri,
     qrCode: require('./markpawl-events.vercel.app.QR-Code.png'),
+    artistImage: require('./markpawl-01-300.jpg'),
 };
