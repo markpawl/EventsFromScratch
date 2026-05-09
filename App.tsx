@@ -19,6 +19,7 @@ import { PerformanceEvent, LocaterState, CurrentState } from './data/types';
 import getPerformanceEvent from './data/events';
 import { ArtistInfo } from './components/Artist';
 import { VenueInfo } from './components/Venue';
+import { PerformanceEventInfo } from './components/PerformanceEvent';
 
 const performanceEvent = getPerformanceEvent("houseConcert3");
 
@@ -229,21 +230,12 @@ function MainScreen() {
       {/* New Collapsible Event Details Area */}
       {showEventDetails && (
         <View>
-          <VenueInfo 
-            venue={current.event.venue} 
+          <PerformanceEventInfo
+            perfevent={current.event}
+            closePerformanceEventInfo={() => toggleEventDetails()} />          
+          <VenueInfo
+            venue={current.event.venue}
             closeVenueInfo={() => toggleEventDetails()} />
-
-          <View style={styles.eventDetailsArea}>
-            <Text style={styles.eventDetailsText}>
-              This is where additional event information will go.
-            </Text>
-            <Text style={styles.eventDetailsText}>
-              For example, date, time, venue address, special notes, etc.
-            </Text>
-            <Text style={styles.eventDetailsText}>
-              It expands and collapses with the caret icon.
-            </Text>
-          </View>
         </View>
       )}
 

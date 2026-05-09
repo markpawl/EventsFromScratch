@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const VenueStyles = StyleSheet.create({
+export const PerformanceEventStyles = StyleSheet.create({
   container: { // Renamed from menumodal, now acts as the inline expanded area
     backgroundColor: '#abe08f', // Light blue background for the expanded area
     padding: 10,
@@ -14,41 +14,36 @@ export const VenueStyles = StyleSheet.create({
     justifyContent: 'space-between', // For content and close button
     // Removed absolute positioning, width, left, top for inline behavior
   },  
-  venue: {
+  perfevent: {
     backgroundColor: 'bisque',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: 'chocolate',
+    padding:0,
+    margin:0,
+    borderRadius: 8,
+    flexDirection: 'column',
   },
   bio: {
     margin: 10,
   },
-  venueImg: {
-    height: 75,
-    marginRight: 10,
-  },
-  venuemodal: {
-    position: 'absolute',
-    width: '90%',
-    left: 25,
-    top: 78,
-    backgroundColor: 'white',
-  },
-  venueHeader: {
-    margin: 10,
-    // display: 'flex' is default in React Native
-    flexDirection: 'row',
-  },
-  venueInfo: {
-    margin: 10,
+  perfeventHeader: {
+    margin: 0,
+    padding: 0,
+    fontSize: 18,
     flexDirection: 'column',
   },
-  venueButton: {
+  perfeventInfo: {
+    margin: 0,
+    marginTop: 10,
+    flexDirection: 'column',
+  },
+  perfeventButton: {
     position: 'absolute',
     right: 0,
     margin: 8,
     marginTop: 5,
-
+    height: 28,
     // display: 'inline' is not supported in RN layout
   },
 });

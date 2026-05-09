@@ -4,6 +4,8 @@ import { PerformanceEvent } from "../types";
 
 const eventObject: PerformanceEvent = {
     "title": "House Concert III", 
+    "description": "An intimate house concert in a historic apartment in Hamburg, Neustadt.",
+    "date": "2024-10-26",
     "venue": {
         "name": "Poolstrasse 41",
         "description": "Our historic apartment in Neustadt.",

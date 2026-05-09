@@ -4,6 +4,8 @@ import { PerformanceEvent } from "../types";
 
 const eventObject:PerformanceEvent = {
     "title": "Kulturnacht Wedel", 
+    "description": "A performance at the Reepschlägerhaus in Wedel as part of the Kulturnacht Wedel.",
+    "date": "2024-05-25",
     "venue": {
         "name": "Reepschlägerhaus",
         "description": "Historic location in the town of Wedel",

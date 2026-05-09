@@ -4,6 +4,8 @@ import { PerformanceEvent } from "../types";
 
 const eventObject: PerformanceEvent = {
     "title": "Beach Party", 
+    "description": "A fun beach party with live music by Mark Pawlowski.",
+    "date": "2024-06-24",
     "venue": {
         "name": "Altona TSV",
         "description": "Altonaer Turn- und Sportverein",

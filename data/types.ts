@@ -37,6 +37,8 @@ export interface Venue {
 
 export interface PerformanceEvent {
   title: string;
+  description: string;
+  date: string;
   venue: Venue;
   artist: Artist;
   sets: SetList[];
