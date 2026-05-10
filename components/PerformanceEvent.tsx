@@ -15,16 +15,13 @@ export function PerformanceEventInfo(params: perfeventParams) {
         Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
     };
 
-    const perfeventWebsiteLink = params.perfevent.links && params.perfevent.links.website ? params.perfevent.links.website : false;
-    const emailLink = params.perfevent.links && params.perfevent.links.email ? params.perfevent.links.email : false;
-
     return (
         <View style={PerformanceEventStyles.container}>
-            {/* Close Button */}
+            {/* Close Button */}           
             <TouchableOpacity
-                hitSlop={15}
                 style={PerformanceEventStyles.perfeventButton}
                 onPress={(event) => params.closePerformanceEventInfo()}
+                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Increase touch target area
             >
                 <Ionicons name="close-circle-outline" size={30} color="#333" />
             </TouchableOpacity>

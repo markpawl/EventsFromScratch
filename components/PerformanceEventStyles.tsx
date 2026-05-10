@@ -43,7 +43,5 @@ export const PerformanceEventStyles = StyleSheet.create({
     right: 0,
     margin: 8,
     marginTop: 5,
-    height: 28,
-    // display: 'inline' is not supported in RN layout
   },
 });

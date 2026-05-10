@@ -24,7 +24,9 @@ export const VenueStyles = StyleSheet.create({
     margin: 10,
   },
   venueImg: {
-    height: 75,
+    width: 140,
+    height: 140,
+    borderRadius: 10,
     marginRight: 10,
   },
   venuemodal: {
@@ -40,7 +42,7 @@ export const VenueStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   venueInfo: {
-    margin: 10,
+    //margin: 10,
     flexDirection: 'column',
   },
   venueButton: {
@@ -48,7 +50,5 @@ export const VenueStyles = StyleSheet.create({
     right: 0,
     margin: 8,
     marginTop: 5,
-
-    // display: 'inline' is not supported in RN layout
   },
 });

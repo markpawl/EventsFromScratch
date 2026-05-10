@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { VenueStyles as styles } from "./VenueStyles";
 import { Venue } from "../src/types";
+import { Images,getVenueImage } from '../assets/images';
 
 interface venueParams {
     venue: Venue;
@@ -29,11 +30,24 @@ export function VenueInfo(params: venueParams) {
             </TouchableOpacity>
 
             <View style={styles.venueHeader}>
+                {/* 
+      <View style={styles.artistHeader}>
+        <Image source={Images.artistImage} style={ArtistStyles.artistImg} />
+        <View>
+          <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Artist</Text>
+          <Text style={{ fontSize: 18 }}>{params.artist.name}</Text>
+        </View>
+      </View>
+                */}
+                {/* 
+                Venue Image and Name 
                 <Image
                     source={{ uri: params.venue.image }}
                     style={styles.venueImg}
                     accessibilityLabel={params.venue.description}
-                />
+                />                
+                */}
+                <Image source={getVenueImage(params.venue.name)} style={styles.venueImg} />
                 <View>
                     <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Venue</Text>
                     <Text style={{ fontSize: 18 }}>{params.venue.name}</Text>
