@@ -234,7 +234,7 @@ function MainScreen() {
           />
         </TouchableOpacity>
 
-        <Text style={styles.eventInfoText}>Event Name @ Location</Text>
+        <Text style={styles.eventInfoText}>Event Name @ Venue</Text>
 
         <Image
           source={Images.turtlelogo}
@@ -270,29 +270,24 @@ function MainScreen() {
             />
           </TouchableOpacity>
           <Text style={styles.songTitle}>{current.song.title}</Text>
-          <Text style={styles.songPosition}>{current.position}</Text>
+
         </View>
         <View style={styles.controlsRow}>
           <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song" onPress={onPrevious}>
             <Ionicons name="caret-back" size={20} color="#1e1e1e" />
           </TouchableOpacity>
+          <Text style={styles.songPosition}>{current.position}</Text>          
           <TouchableOpacity onPress={onNext} style={styles.controlButton} accessibilityLabel="Next Song">
             <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
           </TouchableOpacity>
           <View style={styles.languageToggles}>
-            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "en")} style={styles.langButton} accessibilityLabel="English Language Selector">
-              {/* add View that displays border when this language is selected */}
-              <SvgUri width="24" height="24" uri={Images.usaFlag} />
             <TouchableOpacity onPress={() => onLanguageButtonPress(null, "en")} accessibilityLabel="English Language Selector">
-              <View style={[styles.langButton, language === "en" ? PageContentStyles.borderBlack : PageContentStyles.borderWhite]}>
+              <View style={[styles.langButton, language === "en" ? PageContentStyles.borderWhite : PageContentStyles.borderBlack]}>
                 <SvgUri width="24" height="24" uri={Images.usaFlag} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "de")} style={styles.langButton} accessibilityLabel="German Language Selector">
-              {/* add View that displays border when this language is selected */}
-              <SvgUri width="24" height="24" uri={Images.germanyFlag} />
             <TouchableOpacity onPress={() => onLanguageButtonPress(null, "de")} accessibilityLabel="German Language Selector">
-              <View style={[styles.langButton, language === "de" ? PageContentStyles.borderBlack : PageContentStyles.borderWhite]}>
+              <View style={[styles.langButton, language === "de" ? PageContentStyles.borderWhite : PageContentStyles.borderBlack]}>
                 <SvgUri width="24" height="24" uri={Images.germanyFlag} />
               </View>
             </TouchableOpacity>
@@ -323,25 +318,6 @@ function MainScreen() {
           isLast={isLast}
         />
       </ScrollView>
-      {/*
-      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
-        <Text style={styles.lyricsText}>{current.song.}</Text>
-        <Text style={styles.lyricsText}>
-          Life has very simple plans{"\n"}
-          for such an ordinary man{"\n"}
-          day by day it fades away{"\n"}
-          anything better, is out of his hands{"\n\n"}
-          What’cha gonna do, What’cha gonna do today{"\n"}
-          What are you gonna do{"\n"}
-          What’cha gonna do, What’cha gonna do today{"\n"}
-          What are you gonna do{"\n\n"}
-          She gave her heart away{"\n"}
-          And tried her best to make him see{"\n"}
-          But today she held her breath{"\n"}
-          And declared at last that she was free
-        </Text>
-      </ScrollView>
-*/}
 
       {/* 5. Footer */}
       <>
@@ -451,9 +427,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   eventInfoText: {
-    fontSize: 18,
+        //flex: 1,
+    fontSize: 20,
     fontWeight: '500',
-    color: '#555',
+    color: '#1e1e1e',
   },
   songSelectHeader: {
     flexDirection: 'row',
@@ -466,7 +443,8 @@ const styles = StyleSheet.create({
   },
   songInfoRow: {
     flexDirection: 'row',
-    //paddingLeft: 5,
+    flex: 1, 
+    marginRight: 10,    
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: 8,
@@ -476,12 +454,13 @@ const styles = StyleSheet.create({
   },
   songTitle: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: '500',
     color: '#1e1e1e',
   },
   songPosition: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 20,
+    color: '#000000',
   },
   controlsRow: {
     flexDirection: 'row',

@@ -53,8 +53,6 @@ export const PageContentStyles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'blanchedalmond',
     borderStyle: 'solid',
-    height: 24,
-    width: 24, // Added width for flag container
     borderRadius: 3.6, // 15% of 24px height
     justifyContent: 'center', // Center flag image
     alignItems: 'center',    // Center flag image
@@ -64,8 +62,6 @@ export const PageContentStyles = StyleSheet.create({
     borderColor: '#aaa',
     backgroundColor: '#aaa',
     borderStyle: 'solid',
-    height: 24,
-    width: 24, // Added width for flag container
     borderRadius: 3.6, // 15% of 24px height
     justifyContent: 'center', // Center flag image
     alignItems: 'center',    // Center flag image
