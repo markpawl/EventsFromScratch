@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { PerformanceEventStyles } from './PerformanceEventStyles';
-import { PerformanceEvent } from '../src/types';
+import { PerformanceEvent } from '../data/types';
 
 interface perfeventParams {
     perfevent: PerformanceEvent;

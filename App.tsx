@@ -20,6 +20,9 @@ import getPerformanceEvent from './data/events';
 import { ArtistInfo } from './components/Artist';
 import { VenueInfo } from './components/Venue';
 import { PerformanceEventInfo } from './components/PerformanceEvent';
+import { SetList } from './components/SetList';
+import { PageContentStyles } from './components/PageContentStyles';
+import { PageContent } from './components/PageContent';
 
 const performanceEvent = getPerformanceEvent("houseConcert3");
 
@@ -59,6 +62,19 @@ function MainScreen() {
   const storageKey = 'setAndSong';
   const defaultLocater: LocaterState = { performanceEvent: performanceEvent, setNumber: 0, songNumber: 0 };
   const [locater, setLocater] = useState(defaultLocater);
+  const [language, setLanguage] = useState("en");
+
+  function onLanguageButtonPress(event: any, lang: string) {
+    setLanguage(lang);
+    event.stopPropagation();
+  }
+
+  function setLocaterWrapper(newLocater: LocaterState) {
+    setLocater(newLocater);
+    console.log(`Saving settings: Set ${newLocater.setNumber}, Song ${newLocater.songNumber}`);
+    AsyncStorage.setItem(storageKey, JSON.stringify({ setNumber: newLocater.setNumber, songNumber: newLocater.songNumber }))
+      .catch(e => console.error("Failed to save settings", e));
+  };
 
   useEffect(() => {
     const initializeData = async () => {
@@ -232,7 +248,7 @@ function MainScreen() {
         <View>
           <PerformanceEventInfo
             perfevent={current.event}
-            closePerformanceEventInfo={() => toggleEventDetails()} />          
+            closePerformanceEventInfo={() => toggleEventDetails()} />
           <VenueInfo
             venue={current.event.venue}
             closeVenueInfo={() => toggleEventDetails()} />
@@ -253,22 +269,32 @@ function MainScreen() {
               color="#1e1e1e"
             />
           </TouchableOpacity>
-          <Text style={styles.songTitle}>Song Title</Text>
-          <Text style={styles.songPosition}>(a/b)</Text>
+          <Text style={styles.songTitle}>{current.song.title}</Text>
+          <Text style={styles.songPosition}>{current.position}</Text>
         </View>
         <View style={styles.controlsRow}>
-          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song">
+          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Previous Song" onPress={onPrevious}>
             <Ionicons name="caret-back" size={20} color="#1e1e1e" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.controlButton} accessibilityLabel="Next Song">
+          <TouchableOpacity onPress={onNext} style={styles.controlButton} accessibilityLabel="Next Song">
             <Ionicons name="caret-forward" size={20} color="#1e1e1e" />
           </TouchableOpacity>
           <View style={styles.languageToggles}>
-            <TouchableOpacity style={styles.langButton} accessibilityLabel="English Language Selector">
+            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "en")} style={styles.langButton} accessibilityLabel="English Language Selector">
+              {/* add View that displays border when this language is selected */}
               <SvgUri width="24" height="24" uri={Images.usaFlag} />
+            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "en")} accessibilityLabel="English Language Selector">
+              <View style={[styles.langButton, language === "en" ? PageContentStyles.borderBlack : PageContentStyles.borderWhite]}>
+                <SvgUri width="24" height="24" uri={Images.usaFlag} />
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.langButton} accessibilityLabel="German Language Selector">
+            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "de")} style={styles.langButton} accessibilityLabel="German Language Selector">
+              {/* add View that displays border when this language is selected */}
               <SvgUri width="24" height="24" uri={Images.germanyFlag} />
+            <TouchableOpacity onPress={() => onLanguageButtonPress(null, "de")} accessibilityLabel="German Language Selector">
+              <View style={[styles.langButton, language === "de" ? PageContentStyles.borderBlack : PageContentStyles.borderWhite]}>
+                <SvgUri width="24" height="24" uri={Images.germanyFlag} />
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -277,20 +303,29 @@ function MainScreen() {
       {/* New Collapsible Song Details Area */}
       {showSongDetails && (
         <View style={styles.songDetailsArea}>
-          <Text style={styles.songDetailsText}>
-            This section can display more details about the current song.
-          </Text>
-          <Text style={styles.songDetailsText}>
-            For example, composer, album, year, duration, etc.
-          </Text>
-          <Text style={styles.songDetailsText}>
-            It expands and collapses with the caret icon in the song info row.
-          </Text>
+          <SetList locater={locater} setLocater={setLocaterWrapper} closeModal={toggleSongDetails} />
         </View>
       )}
 
       {/* 4. Lyrics View */}
       <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+        <PageContent
+          current={current}
+          onLanguageButtonPress={onLanguageButtonPress}
+          language={language}
+          showSidebar={showSongDetails}
+          toggleSidebar={toggleSongDetails}
+          showVenue={showEventDetails}
+          toggleVenueModal={toggleEventDetails}
+          onNext={onNext}
+          onPrevious={onPrevious}
+          isFirst={isFirst}
+          isLast={isLast}
+        />
+      </ScrollView>
+      {/*
+      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+        <Text style={styles.lyricsText}>{current.song.}</Text>
         <Text style={styles.lyricsText}>
           Life has very simple plans{"\n"}
           for such an ordinary man{"\n"}
@@ -306,6 +341,7 @@ function MainScreen() {
           And declared at last that she was free
         </Text>
       </ScrollView>
+*/}
 
       {/* 5. Footer */}
       <>
@@ -345,6 +381,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+  },
+  songDetailsAreax: {
+    backgroundColor: '#bf52b2',
   },
   songDetailsArea: {
     backgroundColor: '#e6f7ff', // A light blue background for song details
