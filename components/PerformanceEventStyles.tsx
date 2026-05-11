@@ -43,5 +43,6 @@ export const PerformanceEventStyles = StyleSheet.create({
     right: 0,
     margin: 8,
     marginTop: 5,
+    zIndex: 1, // Ensure the button is clickable
   },
 });
