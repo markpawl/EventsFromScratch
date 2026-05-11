@@ -30,23 +30,6 @@ export function VenueInfo(params: venueParams) {
             </TouchableOpacity>
 
             <View style={styles.venueHeader}>
-                {/* 
-      <View style={styles.artistHeader}>
-        <Image source={Images.artistImage} style={ArtistStyles.artistImg} />
-        <View>
-          <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Artist</Text>
-          <Text style={{ fontSize: 18 }}>{params.artist.name}</Text>
-        </View>
-      </View>
-                */}
-                {/* 
-                Venue Image and Name 
-                <Image
-                    source={{ uri: params.venue.image }}
-                    style={styles.venueImg}
-                    accessibilityLabel={params.venue.description}
-                />                
-                */}
                 <Image source={getVenueImage(params.venue.name)} style={styles.venueImg} />
                 <View>
                     <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Venue</Text>

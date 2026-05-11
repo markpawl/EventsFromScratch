@@ -165,7 +165,6 @@ function MainScreen() {
   };
 
   const toggleEventDetails = () => {
-    console.log("Toggling event details. Current state:", showEventDetails);
     setShowEventDetails(!showEventDetails);
     setShowArtistInfo(false);
     setShowAppInfo(false);
@@ -188,7 +187,7 @@ function MainScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}> {/* Using AppStyles.container */}
+    <SafeAreaView style={styles.container}>
       {/* 1. Top Navigation Bar */}
       <View style={styles.headerBar}>
         <TouchableOpacity
