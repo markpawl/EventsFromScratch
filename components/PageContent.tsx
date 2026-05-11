@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { PageContentStyles as styles } from './PageContentStyles';
 
 export const PageContent = (params:any) => {
@@ -22,7 +22,9 @@ export const PageContent = (params:any) => {
 
     return (
         <View>
-            <Text style={styles.preContent}>{getLyrics() + " (c) " + getArtist()}</Text>
+            <ScrollView horizontal={true} >
+                <Text style={styles.preContent}>{getLyrics() + " (c) " + getArtist()}</Text>
+            </ScrollView>
             <View style={styles.pageEnd}></View>
         </View>
     );
