@@ -1,14 +1,11 @@
 
 import { StyleSheet } from 'react-native';
+import { Typography } from '../styles/typography'; // Import centralized typography styles
 
 export const PageContentStyles = StyleSheet.create({
   preContent: {
     margin: 10,
-    // React Native doesn't support CSS font stacks directly.
-    // You'd typically specify a single font family name that's loaded.
-    // Using a generic system font for now.
-    fontFamily: 'System', // Or 'Helvetica Neue', 'Roboto', etc.
-    fontSize: 18, // 'large' is typically 18px
+    ...Typography.songLyrics, // 'large' is typically 18px
   },
   caretIcon: {
     fontSize: 20, // 'larger' is typically 20px

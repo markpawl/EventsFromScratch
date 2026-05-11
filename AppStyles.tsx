@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Typography } from './styles/typography'; // Import your centralized typography
 
 export const AppStyles = StyleSheet.create({
   container: {
@@ -6,6 +7,7 @@ export const AppStyles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   headerBar: {
+    ...Typography.headerText,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -18,13 +20,10 @@ export const AppStyles = StyleSheet.create({
     padding: 8,
   },
   menuIcon: {
-    fontSize: 24,
-    color: '#333',
+    ...Typography.menuIcon,
   },
   artistName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    ...Typography.artistName,
   },
   songDetailsAreax: {
     backgroundColor: '#bf52b2',
@@ -95,10 +94,8 @@ export const AppStyles = StyleSheet.create({
     borderRadius: 8,
   },
   eventInfoText: {
-        //flex: 1,
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#1e1e1e',
+    // flex: 1, // Keep flex if it's for layout, not typography
+    ...Typography.eventInfoText,
   },
   songSelectHeader: {
     flexDirection: 'row',
@@ -121,14 +118,12 @@ export const AppStyles = StyleSheet.create({
     paddingRight: 12,
   },
   songTitle: {
-    flex: 1,
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#1e1e1e',
+    flex: 1, // Keep flex if it's for layout, not typography
+    ...Typography.songTitle,
   },
   songPosition: {
-    fontSize: 20,
-    color: '#000000',
+    // No flex here, so just apply typography
+    ...Typography.songPosition,
   },
   controlsRow: {
     flexDirection: 'row',
@@ -178,8 +173,7 @@ export const AppStyles = StyleSheet.create({
     borderTopColor: '#f0f0f0',
     backgroundColor: '#7fde88',
   },
-  footerText: {
-    fontSize: 12,
-    color: '#000'
+  footerText: { // Apply the new footer text style
+    ...Typography.footerText,
   },
 });
