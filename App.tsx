@@ -303,7 +303,7 @@ function MainScreen() {
       )}
 
       {/* 4. Lyrics View */}
-      <ScrollView style={styles.lyricsContainer} contentContainerStyle={styles.lyricsContent}>
+      
         <PageContent
           current={current}
           onLanguageButtonPress={onLanguageButtonPress}
@@ -317,7 +317,7 @@ function MainScreen() {
           isFirst={isFirst}
           isLast={isLast}
         />
-      </ScrollView>
+
 
       {/* 5. Footer */}
       <>

@@ -4,7 +4,8 @@ import { Typography } from '../styles/typography'; // Import centralized typogra
 
 export const PageContentStyles = StyleSheet.create({
   preContent: {
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
     ...Typography.songLyrics, // 'large' is typically 18px
   },
   caretIcon: {
@@ -76,5 +77,47 @@ export const PageContentStyles = StyleSheet.create({
   // Additional styles that might be needed for the PageContent component
   languageButton: {
     marginLeft: 5, // Add some spacing between flags
-  }
+  },
+  overflowIndicator: {
+    position: 'absolute',
+    top: 0,
+    right: 10,
+    alignItems: 'center',    
+    zIndex: 10, // Ensure the indicator is above the ScrollView content
+    backgroundColor: 'rgb(212, 212, 212)', // Semi-transparent background for better visibility
+    padding: 5,
+    borderRadius: 20,
+  },
+  indicator: {
+    backgroundColor: '#007AFF',
+    padding: 5,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  indicatorWrapper: {
+    position: 'absolute',
+    right: 5,
+    // Using pointerEvents="none" ensures the icon doesn't 
+    // block the user's ability to touch and swipe the ScrollView
+  },
+  indicatorText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  lyricsContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+  },
+  lyricsContent: {
+    paddingBottom: 0,
+    height: '110%',
+    overflow: 'scroll',
+ },
+  lyricsText: {
+    fontSize: 18,
+    lineHeight: 28,
+    color: '#333',
+    textAlign: 'left',
+  },
 });
