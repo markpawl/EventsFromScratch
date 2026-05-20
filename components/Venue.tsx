@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { VenueStyles as styles } from "./VenueStyles";
-import { Venue } from "../src/types";
+import { Venue } from "../data/types";
 import { Images,getVenueImage } from '../assets/images';
 
 interface venueParams {

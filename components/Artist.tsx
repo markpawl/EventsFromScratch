@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image, Linking, ScrollView } from 'react-
 import { Images } from '../assets/images';
 import { Ionicons } from '@expo/vector-icons';
 import { ArtistStyles as styles } from './ArtistStyles'; // Assuming the file name
-import { Artist } from "../src/types";
+import { Artist } from "../data/types";
 
 interface ArtistInfoProps {
   artist: Artist;
