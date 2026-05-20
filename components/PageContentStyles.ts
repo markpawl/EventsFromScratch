@@ -7,6 +7,7 @@ export const PageContentStyles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     ...Typography.songLyrics, // 'large' is typically 18px
+    marginTop: 5,
   },
   caretIcon: {
     fontSize: 20, // 'larger' is typically 20px
@@ -119,5 +120,6 @@ export const PageContentStyles = StyleSheet.create({
     lineHeight: 28,
     color: '#333',
     textAlign: 'left',
+    ...Typography.songLyrics, // 'large' is typically 18px
   },
 });

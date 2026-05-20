@@ -6,7 +6,7 @@ const baseFontSizes = {
   h2: 20, // Sub-headers, e.g., artist/event names
   h3: 18, // Section titles, e.g., "Event Details"
   body: 16, // Standard body text
-  lyrics: 14, // Slightly smaller for lyrics
+  lyrics: 16, // Slightly smaller for lyrics
   caption: 14, // Smaller text, e.g., song position
   small: 12, // Very small text, e.g., footer
 };
@@ -19,6 +19,7 @@ export const FontSizes = {
   artistName: baseFontSizes.h3,
   eventInfo: baseFontSizes.body,
   songTitle: baseFontSizes.body,
+  caretIcon: baseFontSizes.h2, // Added caret icon size
   songLyrics: baseFontSizes.lyrics,
   songPosition: baseFontSizes.caption,
   menuIcon: baseFontSizes.h1,
@@ -64,6 +65,10 @@ export const Typography = StyleSheet.create({
     fontSize: FontSizes.songLyrics,
     color: '#000000',
   },  
+  caretIcon: {
+    fontSize: FontSizes.caretIcon,
+    color: '#333', // Default color for caret
+  },
   menuIcon: {
     fontSize: FontSizes.menuIcon,
     color: '#333',
